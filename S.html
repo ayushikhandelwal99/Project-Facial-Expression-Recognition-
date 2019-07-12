@@ -17,7 +17,7 @@
         <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="lgn.css">
+        <link rel="stylesheet" href="Css/lgn.css">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-dark fg-light fixed-top">
@@ -57,19 +57,20 @@
 
             
         <div class="form-signin">
+            <form  method="POST" action="php/storeImage.php">
+           
             <div id="basic">
                   <input type="text" id="inputEmail" name="User_Id" class="form-control" placeholder=" Userr Name: " required>
-                  <button  id="s" class="btn btn-lg btn-primary btn-block" type="submit" name="submits" onClick="bass()"> Submit 
-                  </button>
+                  <span  id="s" class="btn btn-lg btn-primary btn-block" name="submits" onClick="bass()"> Submit 
+                  </span>
             </div>
             <form  method="POST" action="storeImage.php">
             <div class="booth" id="booth">
               <div id="my_camera"></div>
               <br/>
               <input type=button value="Take Snapshot" onClick="take_snapshot()">
-              <input type="hidden" name="image" class="image-tag">
-              <button class="btn btn-success">Submit</button>
-              <div id="results">Your captured image will appear here...</div>
+              <input type="hidden" name="image" class="image-tag" required>
+              <button class="btn btn-success" type="Submit">Submit</button>
             </div>
             </form>
           </div>
@@ -108,7 +109,7 @@ function bass(){
 
             $(".image-tag").val(data_uri);
 
-            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+            document.getElementById('my_camera').innerHTML = '<img src="'+data_uri+'"/>';
 
         } );
 
@@ -118,15 +119,3 @@ function bass(){
         <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     </body>
 </html>
-<?php
-    $img = $_POST['image'];
-    $folderPath = "upload/";
-    $image_parts = explode(";base64,", $img);
-    $image_type_aux = explode("image/", $image_parts[0]);
-    $image_type = $image_type_aux[1];
-    $image_base64 = base64_decode($image_parts[1]);
-    $fileName = uniqid() . '.png';
-    $file = $folderPath . $fileName;
-    file_put_contents($file, $image_base64);
-    print_r($fileName);
-?>
